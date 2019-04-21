@@ -1,4 +1,4 @@
-package shtool
+package executil
 
 import (
 	"github.com/mitchellh/go-homedir"
@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 )
 
-var Path = func() string {
+var executilPath = func() string {
 	dir, err := homedir.Dir()
 	if err == nil {
 		dir, err = homedir.Expand(dir)
 		if err == nil {
-			return filepath.Join(dir, ".shtool")
+			return filepath.Join(dir, ".executil")
 		}
 	}
 	return ""
@@ -39,7 +39,7 @@ func Ensure(name string) error {
 		if err != nil {
 			return err
 		}
-		err = pkg.install(Path)
+		err = pkg.install(executilPath)
 		if err != nil {
 			return err
 		}
@@ -81,7 +81,7 @@ func Activate(command string) error {
 		return nil
 	}
 	activePackages = append(activePackages, pkg)
-	return pkg.activate(Path)
+	return pkg.activate(executilPath)
 }
 
 func Install(name string) error {
@@ -90,7 +90,7 @@ func Install(name string) error {
 	if err != nil {
 		return err
 	}
-	err = pkg.install(Path)
+	err = pkg.install(executilPath)
 	if err != nil {
 		return err
 	}
@@ -102,5 +102,5 @@ func IsInstalled(name string) bool {
 	if err != nil {
 		return false
 	}
-	return pkg.isInstalled(Path)
+	return pkg.isInstalled(executilPath)
 }

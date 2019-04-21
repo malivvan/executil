@@ -1,4 +1,4 @@
-package shtool
+package executil
 
 import (
 	"github.com/mholt/archiver"

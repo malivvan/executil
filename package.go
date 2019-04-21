@@ -1,4 +1,4 @@
-package shtool
+package executil
 
 import (
 	"crypto/sha256"

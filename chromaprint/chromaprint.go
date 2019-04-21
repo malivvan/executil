@@ -4,27 +4,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/mikkyang/id3-go"
-	"github.com/satnamram/shtool"
+	"github.com/satnamram/executil"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os/exec"
 	"strconv"
 	"strings"
 )
-
-func init() {
-	shtool.Register(shtool.Package{
-		Name:      "chromaprint",
-		OS:        "linux",
-		Arch:      "amd64",
-		Commands:  []string{"fpcalc"},
-		Download:  "https://github.com/acoustid/chromaprint/releases/download/v1.4.3/chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz",
-		Checksum:  "a84425fccb43faa11b5bdc9d5b6101d6810b3b74876916191d42d31f7d73f4ce",
-		Installer: shtool.ArchiveInstaller("chromaprint-fpcalc-1.4.3-linux-x86_64"),
-		Activator: shtool.PathActivator,
-	})
-}
 
 type AcoustIDRequest struct {
 	Fingerprint string `json:"fingerprint"`
@@ -118,12 +104,7 @@ func (afp *AudioFingerprint) Lookup(apikey string) (*AcoustIDResponse, error) {
 
 func NewAudioFingerprint(filePath string) (*AudioFingerprint, error) {
 
-	err := shtool.Ensure("fpcalc")
-	if err != nil {
-		return nil, err
-	}
-
-	out, err := exec.Command("fpcalc", filePath).Output()
+	out, err := executil.Command("fpcalc", filePath).Output()
 	if err != nil {
 		return nil, err
 	}
