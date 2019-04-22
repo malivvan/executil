@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"runtime"
 )
 
 type Logger func(...interface{})
@@ -25,7 +26,11 @@ func info(i ...interface{}) {
 }
 
 func PathActivator(path string) error {
-	return os.Setenv("PATH", os.Getenv("PATH")+":"+path)
+	seperator := ":"
+	if runtime.GOOS == "windows" {
+		seperator = ";"
+	}
+	return os.Setenv("PATH", os.Getenv("PATH")+seperator+path)
 }
 
 func ArchiveInstaller(prefix string) func(path string) error {
