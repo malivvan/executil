@@ -9,6 +9,7 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+	"runtime"
 )
 
 type AcoustIDRequest struct {
@@ -116,7 +117,11 @@ func NewAudioFingerprint(filePath string) (*AudioFingerprint, error) {
 	}
 
 	fp := &AudioFingerprint{}
-	outstrs := strings.Split(string(out), "\n")
+	lineSeperator := "\n"
+	if runtime.GOOS == "windows" {
+		lineSeperator = "\r\n"
+	}
+	outstrs := strings.Split(string(out), lineSeperator)
 
 	for _, s := range outstrs {
 		if strings.Index(s, "DURATION=") == 0 {
