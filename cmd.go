@@ -36,7 +36,7 @@ func init() {
 		Commands:  []string{"ffmpeg", "ffprobe"},
 		Download:  "https://ffmpeg.zeranoe.com/builds/win32/static/ffmpeg-4.1.1-win32-static.zip",
 		Checksum:  "b739e7d1eff03f4215858aad3a10393f12d2f8843831870e7c148d04692e012c",
-		Installer: ArchiveInstaller("ffmpeg-4.1.1-win32-static"),
+		Installer: ArchiveInstaller("ffmpeg-4.1.1-win32-static/bin"),
 		Activator: PathActivator,
 	})
 	Register(Package{
@@ -46,7 +46,7 @@ func init() {
 		Commands:  []string{"ffmpeg", "ffprobe"},
 		Download:  "https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-4.1.1-win64-static.zip",
 		Checksum:  "2c19658d69de08ea7ef585fbf801ef6a364795b5288e23d79066876ff0465df6",
-		Installer: ArchiveInstaller("ffmpeg-4.1.1-win64-static"),
+		Installer: ArchiveInstaller("ffmpeg-4.1.1-win64-static/bin"),
 		Activator: PathActivator,
 	})
 
