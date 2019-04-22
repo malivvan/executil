@@ -3,7 +3,6 @@ package chromaprint
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/mikkyang/id3-go"
 	"github.com/satnamram/executil"
 	"io/ioutil"
 	"net/http"
@@ -92,6 +91,14 @@ type AudioFingerprint struct {
 	duration    int
 }
 
+func (afp *AudioFingerprint) Fingerprint() string {
+	return afp.fingerprint
+}
+
+func (afp *AudioFingerprint) Duration() int {
+	return afp.duration
+}
+
 func (afp *AudioFingerprint) Lookup(apikey string) (*AcoustIDResponse, error) {
 	request := AcoustIDRequest{
 		ApiKey:      apikey,
@@ -103,7 +110,6 @@ func (afp *AudioFingerprint) Lookup(apikey string) (*AcoustIDResponse, error) {
 }
 
 func NewAudioFingerprint(filePath string) (*AudioFingerprint, error) {
-
 	out, err := executil.Command("fpcalc", filePath).Output()
 	if err != nil {
 		return nil, err
@@ -122,15 +128,4 @@ func NewAudioFingerprint(filePath string) (*AudioFingerprint, error) {
 	}
 
 	return fp, nil
-}
-
-func TagID3(title string, artist string, path string) error {
-	mp3File, err := id3.Open(path)
-	defer mp3File.Close()
-	if err != nil {
-		return err
-	}
-	mp3File.SetArtist(artist)
-	mp3File.SetTitle(title)
-	return nil
 }

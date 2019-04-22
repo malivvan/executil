@@ -4,6 +4,7 @@ import (
 	"github.com/mitchellh/go-homedir"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 )
 
 var executilPath = func() string {
@@ -19,10 +20,12 @@ var executilPath = func() string {
 
 // Register a new Package. If a command
 func Register(pkg Package) {
-	for _, command := range pkg.Commands {
-		existingPkg, _ := lookup(command)
-		if existingPkg != nil {
-			panic("error: command '" + command + "' already available in package '" + existingPkg.Name + "!")
+	if pkg.OS == runtime.GOOS && pkg.Arch == runtime.GOARCH {
+		for _, command := range pkg.Commands {
+			existingPkg, _ := lookup(command)
+			if existingPkg != nil {
+				panic("error: command '" + command + "' already available in package '" + existingPkg.Name + "!")
+			}
 		}
 	}
 	packages = append(packages, &pkg)
