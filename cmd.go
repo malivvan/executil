@@ -1,7 +1,5 @@
 package executil
 
-import "os/exec"
-
 func init() {
 
 	// ffmpeg static for linux from www.johnvansickle.com
@@ -93,13 +91,3 @@ func init() {
 		Activator: PathActivator,
 	})
 }
-
-func Command(name string, arg ...string) *exec.Cmd {
-	err := Ensure(name)
-	if err != nil {
-		info("warning:", err.Error())
-	}
-	return exec.Command(name, arg...)
-}
-
-

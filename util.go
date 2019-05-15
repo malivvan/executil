@@ -1,19 +1,22 @@
 package executil
 
 import (
+	"fmt"
 	"github.com/mholt/archiver"
 	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"path/filepath"
-	"strings"
 	"runtime"
+	"strings"
 )
 
 type Logger func(...interface{})
 
-var logger Logger = nil
+var logger Logger = func(v ...interface{}) {
+	fmt.Println(v...)
+}
 
 func SetLogger(l Logger) {
 	logger = l
